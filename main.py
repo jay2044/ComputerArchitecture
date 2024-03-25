@@ -7,7 +7,7 @@ def program_counter(address):
 
 
 def regdst_mux(control_signals, instruction):
-    print("MUX 1 RegDst:")
+    print(f"MUX 1 RegDst: {control_signals['RegDst']}")
 
     if control_signals['RegDst'] == 1:
         write_register = instruction[16:21]
