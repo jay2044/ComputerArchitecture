@@ -1,4 +1,4 @@
-# all in hex AND ALL DICTIONARIES/MAPS
+# all in hex, format: opcode funct
 instruction_dictionary = {
     'add':      ['0','20'], # start of r-type instructions
     'addu':     ['0','21'],
@@ -98,23 +98,23 @@ class JType:
 
 
 # can use these to convert mips to machine code?
-def rTypeInstruction(opcode, rs, rt, rd, shamt, funct):
-    #instructionOpcodeAndFunct = instruction_dictionary.get(instruction)
+def rTypeInstruction(mnemonic, rs, rt, rd):
+    instructionOpcodeAndFunct = instruction_dictionary.get(mnemonic)
     # converts to binary and gets rid of 0b in front of the string
-    #opcode = bin(int(instructionOpcodeAndFunct[0], 16))[2:]
-    #funct =  bin(int(instructionOpcodeAndFunct[1], 16))[2:]
-    return RType(opcode,rs,rt,rd,shamt,funct)    
+    opcode = bin(int(instructionOpcodeAndFunct[0], 16))[2:]
+    funct =  bin(int(instructionOpcodeAndFunct[1], 16))[2:]
+    return RType(opcode,rs,rt,rd,00000,funct)    
 
-def iTypeInstruction(opcode, rs, rt, immediate):
-    #instructionOpcode = instruction_dictionary.get(instruction)
+def iTypeInstruction(mnemonic, rs, rt, immediate):
+    instructionOpcode = instruction_dictionary.get(mnemonic)
     # converts to binary and gets rid of 0b in front of the string
-    #opcode = bin(int(instructionOpcode[0], 16))[2:]
+    opcode = bin(int(instructionOpcode[0], 16))[2:]
     return IType(opcode,rs,rt,immediate)
 
-def jTypeInstruction(opcode, address):
-    #instructionOpcode= instruction_dictionary.get(instruction)
+def jTypeInstruction(mnemonic, address):
+    instructionOpcode= instruction_dictionary.get(mnemonic)
     # converts to binary and gets rid of 0b in front of the string
-    #opcode = bin(int(instructionOpcode[0], 16))[2:]
+    opcode = bin(int(instructionOpcode[0], 16))[2:]
     return JType(opcode,address)
 
 
@@ -146,3 +146,29 @@ def typeOfInstruction(instruction):
 
 
 
+def selectsAnInstructionType(instruction):
+    instruction = instruction.replace(',', '').split()
+    mnemonic = instruction[0]
+    instructionType = typeOfInstruction(mnemonic)
+    if instructionType == 'rtype':
+        register1 = bin(named_registers.get(instruction[1]))[2:].zfill(5)
+        register2 = bin(named_registers.get(instruction[2]))[2:].zfill(5)
+        register3 = bin(named_registers.get(instruction[3]))[2:].zfill(5)
+        machine = rTypeInstruction(mnemonic,register1,register2,register3)
+        # unsure on how to do the shamt of an RTYPE instruction
+        print(f"{machine.opcode.zfill(6)} {machine.rs} {machine.rd} {machine.rt} {machine.shamt} {machine.funct}")
+
+    if instructionType == 'itype':
+        register1 = bin(named_registers.get(instruction[1]))[2:].zfill(5)
+        register2 = bin(named_registers.get(instruction[2]))[2:].zfill(5)
+        immediate = bin(int(instruction[3]))[2:].zfill(16)
+        machine = iTypeInstruction(mnemonic,register1,register2,immediate)
+        print(f"{machine.opcode.zfill(6)}{machine.rs}{machine.rt}{machine.immediate}")
+
+    if instructionType == 'jtype':
+        address = bin(int(instruction[1], 16))[2:].zfill(26)
+        machine = jTypeInstruction(mnemonic, address)
+        print(f"{machine.opcode.zfill(6)}{machine.address}")
+        
+    
+selectsAnInstructionType("j, 0x2000")
