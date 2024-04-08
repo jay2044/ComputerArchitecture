@@ -1,7 +1,7 @@
 from mips_instructions import *
 
 
-def assemble_mips_instruction(instruction):
+def mips_to_machine(instruction):
     instruction = instruction.replace('$', '')
     instruction = instruction.replace(',', '').split()
     mnemonic = instruction[0]
@@ -47,7 +47,7 @@ def assemble_mips_instruction(instruction):
         print(f"{machine.opcode.zfill(6)} {machine.address}")
 
 
-assemble_mips_instruction("j 0x3c")
+mips_to_machine("j 0x3c")
 
 
 # Test examples:
