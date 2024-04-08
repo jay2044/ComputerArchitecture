@@ -45,3 +45,9 @@ def checkForOpcode(machinecode):
         return rTypeConversion(machinecode, opcode, funct)
     else:
         return eitherITypeORJType(machinecode, opcode)
+
+
+def machine_to_mips(machine_code):
+    # This function uses the checkForOpcode function to determine the MIPS instruction
+    mips_instruction = checkForOpcode(machine_code)
+    print(mips_instruction)
