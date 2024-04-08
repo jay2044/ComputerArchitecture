@@ -1,36 +1,36 @@
 # all in hex, format: opcode funct
 instruction_dictionary = {
-    'add':      ['0','20'], # start of r-type instructions
-    'addu':     ['0','21'],
-    'and':      ['0','24'],
-    'jr':       ['0','8'],
-    'nor':      ['0','27'],
-    'or':       ['0','25'],
-    'slt':      ['0','2a'],
-    'sltu':     ['0','2b'],
-    'sll':      ['0','00'],
-    'srl':      ['0','02'],
-    'sub':      ['0','22'],
-    'subu':     ['0','23'],
-    'addi':     '8', # start of i-type instructions
-    'addiu':    '9',
-    'andi':     'c',
-    'beq':      '4',
-    'bne':      '5',
-    'lbu':      '24',
-    'lhu':      '25',
-    'll':       '30',
-    'lui':      'f',
-    'lw':       '23',
-    'ori':      'd',
-    'slti':     'a',
-    'sltiu':    'b',
-    'sb':       '28',
-    'sc':       '38',
-    'sh':       '29',
-    'sw':       '2b',
-    'j':        '2', # start of j-type instructions
-    'jal':      '3'
+    'add': ['0', '20'],  # start of r-type instructions
+    'addu': ['0', '21'],
+    'and': ['0', '24'],
+    'jr': ['0', '8'],
+    'nor': ['0', '27'],
+    'or': ['0', '25'],
+    'slt': ['0', '2a'],
+    'sltu': ['0', '2b'],
+    'sll': ['0', '00'],
+    'srl': ['0', '02'],
+    'sub': ['0', '22'],
+    'subu': ['0', '23'],
+    'addi': '8',  # start of i-type instructions
+    'addiu': '9',
+    'andi': 'c',
+    'beq': '4',
+    'bne': '5',
+    'lbu': '24',
+    'lhu': '25',
+    'll': '30',
+    'lui': 'f',
+    'lw': '23',
+    'ori': 'd',
+    'slti': 'a',
+    'sltiu': 'b',
+    'sb': '28',
+    'sc': '38',
+    'sh': '29',
+    'sw': '2b',
+    'j': '2',  # start of j-type instructions
+    'jal': '3'
 }
 
 named_registers = {
@@ -69,7 +69,6 @@ named_registers = {
 }
 
 
-
 # not used in machine_to_mips but can be used to convert mips to machine : )
 ########################################################################################################################
 class RType:
@@ -82,6 +81,7 @@ class RType:
         self.funct = funct
         self.type = __class__.__name__
 
+
 class IType:
     def __init__(self, opcode, rs, rt, immediate):
         self.opcode = opcode
@@ -89,6 +89,7 @@ class IType:
         self.rt = rt
         self.immediate = immediate
         self.type = __class__.__name__
+
 
 class JType:
     def __init__(self, opcode, address):
@@ -98,25 +99,24 @@ class JType:
 
 
 # can use these to convert mips to machine code?
-def rTypeInstruction(mnemonic, rs, rt, rd):
+def rTypeInstruction(mnemonic, rs, rt, rd, shamt):
     instructionOpcodeAndFunct = instruction_dictionary.get(mnemonic)
     # converts to binary and gets rid of 0b in front of the string
     opcode = bin(int(instructionOpcodeAndFunct[0], 16))[2:]
-    funct =  bin(int(instructionOpcodeAndFunct[1], 16))[2:]
-    return RType(opcode,rs,rt,rd,00000,funct)    
+    funct = bin(int(instructionOpcodeAndFunct[1], 16))[2:]
+    return RType(opcode, rs, rt, rd, shamt, funct)
+
 
 def iTypeInstruction(mnemonic, rs, rt, immediate):
+    opcode = bin(int(instruction_dictionary[mnemonic], 16))[2:].zfill(6)
+    return IType(opcode, rs, rt, immediate)
+
+
+def jTypeInstruction(mnemonic, address):
     instructionOpcode = instruction_dictionary.get(mnemonic)
     # converts to binary and gets rid of 0b in front of the string
     opcode = bin(int(instructionOpcode[0], 16))[2:]
-    return IType(opcode,rs,rt,immediate)
-
-def jTypeInstruction(mnemonic, address):
-    instructionOpcode= instruction_dictionary.get(mnemonic)
-    # converts to binary and gets rid of 0b in front of the string
-    opcode = bin(int(instructionOpcode[0], 16))[2:]
-    return JType(opcode,address)
-
+    return JType(opcode, address)
 
 
 ##########################################################################################
@@ -127,11 +127,13 @@ def getRegisterName(registerNumber):
         if value == registerNumber:
             return name
 
+
 def typeOfInstruction(instruction):
     instruction = instruction.lower()
 
     rtype = ["add", "addu", "and", "jr", "nor", "or", "slt", "sltu", "sll", "srl", "sub", "subu"]
-    itype = ["addi", "addiu", "andi", "beq", "bne", "lbu", "lhu", "ll", "lui", "lw", "ori", "slti", "sltiu", "sb", "sc", "sh", "sw"]
+    itype = ["addi", "addiu", "andi", "beq", "bne", "lbu", "lhu", "ll", "lui", "lw", "ori", "slti", "sltiu", "sb", "sc",
+             "sh", "sw"]
     jtype = ["j", "jal"]
 
     if instruction in rtype:
@@ -142,33 +144,52 @@ def typeOfInstruction(instruction):
 
     if instruction in jtype:
         return 'jtype'
-    
 
 
-
-def selectsAnInstructionType(instruction):
+def assemble_mips_instruction(instruction):
+    instruction = instruction.replace('$', '')
     instruction = instruction.replace(',', '').split()
     mnemonic = instruction[0]
     instructionType = typeOfInstruction(mnemonic)
     if instructionType == 'rtype':
-        register1 = bin(named_registers.get(instruction[1]))[2:].zfill(5)
-        register2 = bin(named_registers.get(instruction[2]))[2:].zfill(5)
-        register3 = bin(named_registers.get(instruction[3]))[2:].zfill(5)
-        machine = rTypeInstruction(mnemonic,register1,register2,register3)
-        # unsure on how to do the shamt of an RTYPE instruction
-        print(f"{machine.opcode.zfill(6)} {machine.rs} {machine.rd} {machine.rt} {machine.shamt} {machine.funct}")
+        if mnemonic in ['sll', 'srl']:
+            rs = '00000'
+            rt = bin(named_registers[instruction[2]])[2:].zfill(5)
+            rd = bin(named_registers[instruction[1]])[2:].zfill(5)
+            if len(instruction) == 4:
+                shamt = bin(int(instruction[3]))[2:].zfill(5)
+            else:
+                shamt = '00000'
+            machine = rTypeInstruction(mnemonic, rs, rt, rd, shamt)
+            print(f"{machine.opcode.zfill(6)} {rs} {rt} {rd} {shamt} {machine.funct.zfill(6)}")
 
-    if instructionType == 'itype':
-        register1 = bin(named_registers.get(instruction[1]))[2:].zfill(5)
-        register2 = bin(named_registers.get(instruction[2]))[2:].zfill(5)
-        immediate = bin(int(instruction[3]))[2:].zfill(16)
-        machine = iTypeInstruction(mnemonic,register1,register2,immediate)
-        print(f"{machine.opcode.zfill(6)}{machine.rs}{machine.rt}{machine.immediate}")
+        else:
+            rs = bin(named_registers[instruction[2]])[2:].zfill(5)
+            rt = bin(named_registers[instruction[3]])[2:].zfill(5)
+            rd = bin(named_registers[instruction[1]])[2:].zfill(5)
+            shamt = '00000'
+            machine = rTypeInstruction(mnemonic, rs, rt, rd, shamt)
+            print(f"{machine.opcode.zfill(6)} {rs} {rt} {rd} {shamt} {machine.funct.zfill(6)}")
 
-    if instructionType == 'jtype':
+    elif instructionType == 'itype':
+        if mnemonic in ['lw', 'sw']:
+            # Splitting the offset(base) part for lw and sw instructions
+            offset, base = instruction[2].split('(')
+            base = base[:-1]  # Remove the closing parenthesis
+            rt = bin(named_registers[instruction[1]])[2:].zfill(5)
+            rs = bin(named_registers[base])[2:].zfill(5)
+            immediate = bin(int(offset, 0))[2:].zfill(16)
+        else:
+            rt = bin(named_registers[instruction[1]])[2:].zfill(5)
+            rs = bin(named_registers[instruction[2]])[2:].zfill(5)
+            immediate = bin(int(instruction[3], 0))[2:].zfill(16)
+        machine = iTypeInstruction(mnemonic, rs, rt, immediate)
+        print(f"{machine.opcode.zfill(6)} {rs} {rt} {immediate}")
+
+    elif instructionType == 'jtype':
         address = bin(int(instruction[1], 16))[2:].zfill(26)
         machine = jTypeInstruction(mnemonic, address)
-        print(f"{machine.opcode.zfill(6)}{machine.address}")
-        
-    
-selectsAnInstructionType("j, 0x2000")
+        print(f"{machine.opcode.zfill(6)} {machine.address}")
+
+
+assemble_mips_instruction("lui $t0, 0x1")

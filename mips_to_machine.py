@@ -46,10 +46,12 @@ def register_to_bin(register):
 
 def r_type(opcode, rs, rt, rd, shamt, funct):
     funct_bin = format(int(funct, 16), '06b')
+    print(f"{opcode}{register_to_bin(rs)}{register_to_bin(rt)}{register_to_bin(rd)}{format(shamt, '05b')}{funct_bin}")
     return f"{opcode}{register_to_bin(rs)}{register_to_bin(rt)}{register_to_bin(rd)}{format(shamt, '05b')}{funct_bin}"
 
 
 def i_type(opcode, rs, rt, immediate):
+    f"{opcode}{register_to_bin(rs)}{register_to_bin(rt)}{imm_to_bin(immediate)}"
     return f"{opcode}{register_to_bin(rs)}{register_to_bin(rt)}{imm_to_bin(immediate)}"
 
 
@@ -105,3 +107,6 @@ def assemble_mips_instruction(instruction):
         return j_type(opcode_bin, address)
 
     return "Instruction format not supported."
+
+
+assemble_mips_instruction("add $t1, $t2, $t3")
