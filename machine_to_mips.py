@@ -17,9 +17,8 @@ def rTypeConversion(machineCode, opcode, funct):
             rd = getRegisterName(int(machineCode[16:21],2))
             shamt = int(machineCode[21:26],2)
             
-            instruction = instructionType.rTypeInstruction(opcode,rs,rt,rd,shamt,funct)
-            print(f"{name} {rs} {rt} {rd}")
-            break
+            #instruction = instructionType.rTypeInstruction(opcode,rs,rt,rd, funct)
+            return f"{name} {rs} {rt} {rd}"
 
 # i type and jtype conversion
 def eitherITypeORJType(machineCode, opcode):
@@ -31,14 +30,12 @@ def eitherITypeORJType(machineCode, opcode):
                 rs = getRegisterName(int(machineCode[6:11],2))
                 rt = getRegisterName(int(machineCode[11:16],2))
                 immediate = int(machineCode[16:],2)
-                instruction = instructionType.iTypeInstruction(opcode,rs,rt,immediate)
-                print(f"{name} {rt} {rs} {immediate}")
-                break
+                #instruction = instructionType.iTypeInstruction(opcode,rs,rt,immediate)
+                return f"{name} {rt} {rs} {immediate}"
             else:
                 address = int(machineCode[5:],2)
-                instruction = instructionType.jTypeInstruction(opcode, address)
-                print(f"{name} {hex(address)}")
-                break
+                #instruction = instructionType.jTypeInstruction(opcode, address)
+                return f"{name} {hex(address)}" 
 
 # USE THIS FUNCTION TO USE THE FILE
 def checkForOpcode(machinecode):
@@ -46,8 +43,6 @@ def checkForOpcode(machinecode):
     funct = -1
     if opcode == 0:
         funct = int(machinecode[26:],2)
-        rTypeConversion(machinecode, opcode, funct)
+        return rTypeConversion(machinecode, opcode, funct)
     else:
-        eitherITypeORJType(machinecode, opcode)
-
-checkForOpcode(string)
+        return eitherITypeORJType(machinecode, opcode)

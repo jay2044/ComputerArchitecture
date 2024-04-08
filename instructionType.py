@@ -161,6 +161,5 @@ def selectsAnInstructionType(instruction):
         address = bin(int(instruction[1], 16))[2:].zfill(26)
         machine = jTypeInstruction(mnemonic, address)
         print(f"{machine.opcode.zfill(6)}{machine.address}")
-        
-    
-selectsAnInstructionType("j, 0x2000")
+
+
