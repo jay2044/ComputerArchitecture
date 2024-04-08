@@ -1,11 +1,12 @@
-import instructionType
+from instructionType import *
+
 
 def assemble_mips_instruction(instruction):
     instruction = instruction.replace('$', '')
     instruction = instruction.replace(',', '').split()
     mnemonic = instruction[0]
-    instructionType = typeOfInstruction(mnemonic)
-    if instructionType == 'rtype':
+    instruction_type = typeOfInstruction(mnemonic)
+    if instruction_type == 'rtype':
         if mnemonic in ['sll', 'srl']:
             rs = '00000'
             rt = bin(named_registers[instruction[2]])[2:].zfill(5)
@@ -25,7 +26,7 @@ def assemble_mips_instruction(instruction):
             machine = rTypeInstruction(mnemonic, rs, rt, rd, shamt)
             print(f"{machine.opcode.zfill(6)} {rs} {rt} {rd} {shamt} {machine.funct.zfill(6)}")
 
-    elif instructionType == 'itype':
+    elif instruction_type == 'itype':
         if mnemonic in ['lw', 'sw']:
             # Splitting the offset(base) part for lw and sw instructions
             offset, base = instruction[2].split('(')
@@ -40,10 +41,10 @@ def assemble_mips_instruction(instruction):
         machine = iTypeInstruction(mnemonic, rs, rt, immediate)
         print(f"{machine.opcode.zfill(6)} {rs} {rt} {immediate}")
 
-    elif instructionType == 'jtype':
+    elif instruction_type == 'jtype':
         address = bin(int(instruction[1], 16))[2:].zfill(26)
         machine = jTypeInstruction(mnemonic, address)
         print(f"{machine.opcode.zfill(6)} {machine.address}")
 
 
-assemble_mips_instruction("lui $t1, 1024")
+assemble_mips_instruction("add $t1, $t2, $t3")
