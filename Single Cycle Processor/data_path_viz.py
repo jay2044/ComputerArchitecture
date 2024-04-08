@@ -1,4 +1,4 @@
-from mips_to_machine import assemble_mips_instruction
+from converters.mips_to_machine import assemble_mips_instruction
 from control import control
 
 current_pc = 0
