@@ -1,4 +1,4 @@
-import machine_to_mips
+import converters.machine_to_mips
 
 
 def test_machineToMipsConversionRType():
