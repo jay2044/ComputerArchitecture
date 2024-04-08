@@ -3,13 +3,18 @@ import instructionType
 # testing variable 
 string = "00110101010010010000000000100101"
 
+def getRegisterName(registerNumber):
+    for name, value in instructionType.named_registers.items():
+        if value == registerNumber:
+            return name
+
 # r type conversion
 def rTypeConversion(machineCode, opcode, funct):
     for name, value in instructionType.instruction_dictionary.items():
         if funct != -1 and funct == int(value[1],16):
-            rs = instructionType.getRegisterName(int(machineCode[6:11],2))
-            rt = instructionType.getRegisterName(int(machineCode[11:16],2))
-            rd = instructionType.getRegisterName(int(machineCode[16:21],2))
+            rs = getRegisterName(int(machineCode[6:11],2))
+            rt = getRegisterName(int(machineCode[11:16],2))
+            rd = getRegisterName(int(machineCode[16:21],2))
             shamt = int(machineCode[21:26],2)
             
             instruction = instructionType.rTypeInstruction(opcode,rs,rt,rd,shamt,funct)
@@ -23,8 +28,8 @@ def eitherITypeORJType(machineCode, opcode):
             type = instructionType.typeOfInstruction(name)
             
             if type == 'itype':
-                rs = instructionType.getRegisterName(int(machineCode[6:11],2))
-                rt = instructionType.getRegisterName(int(machineCode[11:16],2))
+                rs = getRegisterName(int(machineCode[6:11],2))
+                rt = getRegisterName(int(machineCode[11:16],2))
                 immediate = int(machineCode[16:],2)
                 instruction = instructionType.iTypeInstruction(opcode,rs,rt,immediate)
                 print(f"{name} {rt} {rs} {immediate}")

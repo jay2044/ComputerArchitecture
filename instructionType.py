@@ -121,12 +121,6 @@ def jTypeInstruction(mnemonic, address):
 
 ##########################################################################################
 
-
-def getRegisterName(registerNumber):
-    for name, value in named_registers.items():
-        if value == registerNumber:
-            return name
-
 def typeOfInstruction(instruction):
     instruction = instruction.lower()
 
@@ -143,8 +137,6 @@ def typeOfInstruction(instruction):
     if instruction in jtype:
         return 'jtype'
     
-
-
 
 def selectsAnInstructionType(instruction):
     instruction = instruction.replace(',', '').split()
