@@ -1,4 +1,4 @@
-import instructionType
+import mips_instructions
 
 # testing variable 
 string = "00110101010010010000000000100101"
