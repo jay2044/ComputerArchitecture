@@ -163,6 +163,7 @@ def test_twosComp():
             received_bit_string = twosComp(bit_string_input, len(bit_string_input))
         except Exception as e:
             print(f"Error converting bit string: {bit_string_input}")
+            print(f"\tbecause of exception: {e}")
             failed_tests += 1
             continue
 
