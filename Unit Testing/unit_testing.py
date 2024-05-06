@@ -3,11 +3,7 @@ import sys
 
 current_dir = os.path.dirname(__file__)
 sys.path.append(os.path.join(current_dir, '../'))
-<<<<<<< HEAD
 from converters.machine_to_mips import machine_to_mips
-=======
-from converters.mips_to_machine import machine_to_mips
->>>>>>> 27383398ec1094a09a1c17daeac0dd23bf81cf29
 
 
 def test_machineToMipsConversionRType():
