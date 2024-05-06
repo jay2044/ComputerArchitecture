@@ -1,4 +1,4 @@
-from converters.mips_to_machine import assemble_mips_instruction
+from converters.mips_to_machine import mips_to_machine
 from control import control
 
 current_pc = 0
@@ -50,7 +50,7 @@ def pc_adder():
 def instruction_memory(instruction):
     print("Entered Instruction Memory")
     # Convert the instruction to machine code (not what an IM does)
-    machine_code = assemble_mips_instruction(instruction)
+    machine_code = mips_to_machine(instruction)
     return machine_code
 
 
