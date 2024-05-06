@@ -1,5 +1,6 @@
 
 binarySum = lambda a, b: bin(int(a, 2) + int(b, 2))
+binaryDiff = lambda a, b: bin(int(a, 2) - int(b, 2))
 
 # computes the 2's complement of binary numbers
 def twosComp(n, size):
