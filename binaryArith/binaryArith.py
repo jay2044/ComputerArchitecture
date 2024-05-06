@@ -81,3 +81,68 @@ def multAlg(multd, multr):
     # check for need to 2's comp the prod
     if dComp and not rComp or not dComp and rComp:
         prod = twosComp(prod, prodLen)
+    return questionVals
+
+
+# binary division algorithm
+def divAlg(n, m):
+    
+    dividend = n
+    divisor = m
+    quotient = ""
+
+    j = 0
+    while j != m and divisor[j] != "1":
+        j += 1
+
+    if j == m:
+        return
+
+    j += 1
+    # bool values to check if multd and multr are 2's comp
+    ddComp = False
+    drComp = False
+
+    # check for leading bit 1, if 2's comp numbers
+    if dividend[0] == "1":
+        ddComp = True
+        dividend = twosComp(dividend, n)
+
+    if divisor[0] == "1":
+        drComp = True
+        divisor = twosComp(divisor, m)
+
+    # right justify divisor
+    for i in range(m):
+        divisor = divisor + "0"
+
+    # setting the new size of divisor
+    m *= 2
+
+    size = m
+    j = m - j
+
+    # algo loop
+    for i in range(j):
+
+        # remainder = remainder - divisor
+        dividend = binaryDiff(dividend, divisor)
+
+        # cond dividend[0] == '1'
+        if dividend[0] == "-":
+            # rem += divisor
+            dividend = binarySum(dividend, divisor)
+            quotient += "0"
+        else:
+            quotient += "1"
+
+        # shift divisor right
+        divisor = list(divisor)
+        divisor.pop()
+        divisor = "".join(divisor)
+        size = size - 1
+
+    #add something here for 2's comp??
+
+    #this should return an array of all the values needed to give the question
+    return
