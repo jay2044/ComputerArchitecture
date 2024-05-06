@@ -1,9 +1,15 @@
+<<<<<<< HEAD
+=======
+# from converters.mips_to_machine import mips_to_machine
+
+>>>>>>> 27383398ec1094a09a1c17daeac0dd23bf81cf29
 import os
 import sys
 
 current_dir = os.path.dirname(__file__)
 sys.path.append(os.path.join(current_dir, '../'))
 from converters.mips_to_machine import mips_to_machine
+
 
 # Test examples:
 r_type_test_examples = [

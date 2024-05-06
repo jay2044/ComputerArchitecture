@@ -1,5 +1,12 @@
-from converters.mips_to_machine import assemble_mips_instruction
+# from converters.mips_to_machine import mips_to_machine
+import os
+import sys
+
 from control import control
+
+current_dir = os.path.dirname(__file__)
+sys.path.append(os.path.join(current_dir, '../'))
+from converters.mips_to_machine import mips_to_machine
 
 current_pc = 0
 
@@ -50,7 +57,7 @@ def pc_adder():
 def instruction_memory(instruction):
     print("Entered Instruction Memory")
     # Convert the instruction to machine code (not what an IM does)
-    machine_code = assemble_mips_instruction(instruction)
+    machine_code = mips_to_machine(instruction)
     return machine_code
 
 
@@ -90,4 +97,3 @@ def start_data_path_visualizer(instruction):
 
 
 start_data_path_visualizer("add, t1, t2, t3")
-
