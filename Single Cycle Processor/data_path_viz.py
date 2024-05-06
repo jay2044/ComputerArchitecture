@@ -1,5 +1,12 @@
-from converters.mips_to_machine import mips_to_machine
+# from converters.mips_to_machine import mips_to_machine
+import os
+import sys
+
 from control import control
+
+current_dir = os.path.dirname(__file__)
+sys.path.append(os.path.join(current_dir, '../'))
+from converters.mips_to_machine import mips_to_machine
 
 current_pc = 0
 
@@ -90,4 +97,3 @@ def start_data_path_visualizer(instruction):
 
 
 start_data_path_visualizer("add, t1, t2, t3")
-
