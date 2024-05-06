@@ -1,9 +1,5 @@
 from mips_instructions import *
 
-# testing variable
-string = "00110101010010010000000000100101"
-
-
 # r type conversion
 def rTypeConversion(machineCode, opcode, funct):
     for name, value in instruction_dictionary.items():
@@ -14,7 +10,16 @@ def rTypeConversion(machineCode, opcode, funct):
             shamt = int(machineCode[21:26], 2)
 
             # instruction = rTypeInstruction(opcode,rs,rt,rd, funct)
-            return f"{name} {rs} {rt} {rd}"
+            if name in ["add", "addu", "and", "slt", "sltu", "sub", "subu"]:
+                return f"{name} {rd} {rs} {rt}"
+
+            if name in ["nor", "or"]:
+                return f"{name} {rd} {rs} {rt}"
+
+            if name in ["sll", "srl"]:
+                return f"{name} {rd} {rt} {shamt}"
+            
+            return f"{name} {rt}" # idk
 
 
 # i type and jtype conversion
@@ -28,15 +33,21 @@ def eitherITypeORJType(machineCode, opcode):
                 rt = get_register_name(int(machineCode[11:16], 2))
                 immediate = int(machineCode[16:], 2)
                 # instruction = iTypeInstruction(opcode,rs,rt,immediate)
-                return f"{name} {rt} {rs} {immediate}"
+
+                if name in ["addi", "addiu", "andi", "lbu", "lhu", "ll", "lw", "slti", "sltiu"]:
+                    return f"{name} {rt} {rs} {immediate}"
+
+                if name in ["bne", "beq", "sb", "sc", "sh", "sw"]:
+                    return f"{name} {rs} {rt}"
+                return f"{name} {rt} {immediate}" # lui
             else:
                 address = int(machineCode[5:], 2)
                 # instruction = jTypeInstruction(opcode, address)
                 return f"{name} {hex(address)}"
 
-            # USE THIS FUNCTION TO USE THE FILE
 
 
+# USE THIS FUNCTION TO USE THE FILE
 def checkForOpcode(machinecode):
     opcode = int(machinecode[0:6], 2)
     funct = -1
