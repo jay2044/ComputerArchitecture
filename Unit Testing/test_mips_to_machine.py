@@ -72,7 +72,7 @@ def test_mips_to_machine():
             received_machine_code = mips_to_machine(mips_instruction)
         except Exception as e:
             print(f"Error processing instruction: {mips_instruction}")
-            print(f"\tbecause of exception {e}")
+            print(f"\tBecause of exception: {e}")
             failed_tests += 1
             continue
 
