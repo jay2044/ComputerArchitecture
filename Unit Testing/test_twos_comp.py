@@ -162,13 +162,12 @@ def test_twosComp():
         try:
             received_bit_string = twosComp(bit_string_input, len(bit_string_input))
         except Exception as e:
-            print(f"Error processing instruction: {bit_string_input}")
+            print(f"Error converting bit string: {bit_string_input}")
             failed_tests += 1
             continue
 
         if received_bit_string != expected_bit_string:
             print(f"Failed test for: {bit_string_input} expected: {expected_bit_string} received: {received_bit_string}")
-
             failed_tests += 1
 
     if failed_tests == 0:
