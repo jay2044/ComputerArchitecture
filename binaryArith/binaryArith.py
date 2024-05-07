@@ -34,6 +34,18 @@ def twosComp(n, size):
 # binary multiplication algorithm, should return an array of computational values
 def multAlg(multd, multr, twoscomp):
 
+    if twoscomp:
+        # bool values to check if multd and multr are 2's comp
+        dComp = False
+        rComp = False
+
+        # check for leading bit 1, if 2's comp numbers
+        if multd[0] == "1":
+            dComp = True
+
+        if multr[0] == "1":
+            rComp = True
+
     # set up product string
     resulting_product_length = len(multd) + len(multr)
     # populate prod with zeros
@@ -43,18 +55,6 @@ def multAlg(multd, multr, twoscomp):
         multd = "0" + multd
 
     questionVals = [[multd, multr, prod]]
-
-    if twoscomp:
-        # bool values to check if multd and multr are 2's comp
-        dComp = False
-        rComp = False
-
-        # check for leading bit 1, if 2's comp numbers
-        if questionVals[0][0][0] == "1":
-            dComp = True
-
-        if questionVals[0][1][0] == "1":
-            rComp = True
 
     questionVals.append(copy.copy(questionVals[0]))  # Initialization step
     multiplier_length = len(multr)
@@ -85,7 +85,7 @@ def multAlg(multd, multr, twoscomp):
     if twoscomp:
         # check for need to twoscomp product
         if dComp and not rComp or not dComp and rComp:
-            questionVals[len(questionVals)-1][2] = twoscomp(questionVals[2], len(questionVals[2]))
+            questionVals[len(questionVals)-1][2] = twosComp(questionVals[len(questionVals)-1][2], len(questionVals[len(questionVals)-1][2]))
 
     return questionVals
 
@@ -154,4 +154,4 @@ def divAlg(n, m):
     return
 
 
-print(multAlg("0010", "0011", False))
+print(multAlg("1000", "0001", True))
