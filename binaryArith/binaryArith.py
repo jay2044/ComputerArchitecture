@@ -64,14 +64,14 @@ def multAlg(multd, multr):
     for i in range(len(multr)):
 
         # if ending bit is 1 add multiplicand to product
-        if questionVals[1][size - 1] == "1":
+        if questionVals[1][len(multr) - 1] == "1":
             tempStr = binarySum(questionVals[2], questionVals[0])
             questionVals[2] = tempStr[2:]  # removes 0b
 
-        curlen = len(questionVals[2])
-        while curlen < prodLen:
-            questionVals[2] = "0" + questionVals[2]
-            curlen += 1
+            curlen = len(questionVals[2])
+            while curlen < prodLen:
+                questionVals[2] = "0" + questionVals[2]
+                curlen += 1
 
         # shift multd left
         questionVals[0] += "0"

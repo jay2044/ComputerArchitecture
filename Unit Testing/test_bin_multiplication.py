@@ -7,8 +7,14 @@ from binaryArith.binaryArith import *
 
 #testing set up for a single test of array of values
 single_test = [
-    [["0001","0100"],["01000000","0000","00000100"]],
-    [["0100","0001"],["00010000","0000","00000100"]]
+
+    [["0001","0001"],["00010000","0000","00000001"]], #1 * 1
+    [["0001","0010"],["00010000","0000","00000010"]], #1 * 2
+    [["0010","0001"],["00100000","0000","00000010"]], #2 * 1
+    [["0001","0011"],["00010000","0000","00000011"]], #1 * 3
+    [["0011","0001"],["00110000","0000","00000011"]], #3 * 1
+    [["0001","0100"],["00010000","0000","00000100"]], #1 * 4
+    [["0100","0001"],["01000000","0000","00000100"]] #4 * 1
     ]
 
 
@@ -32,7 +38,7 @@ def test_binMultiplication():
         i = 0
         for value in received_bit_string:
             if value != expected_bit_string[i]:
-                print(f"Failed test for: {bit_string_input} expected: {expected_bit_string} received: {received_bit_string}")
+                print(f"Failed test for: {bit_string_input} expected: {expected_bit_string[i]} received: {value}")
                 failed_tests += 1
                 break
             i +=1
