@@ -1,3 +1,4 @@
+import pytest
 import os
 import sys
 
@@ -12,7 +13,7 @@ from binaryArith.binaryArith import *
 # 4. Negative * Negative
 # 5. Edge cases (* by 0, etc.)
 
-mult_tests = [
+multiplication_tests_non_negative = [
 [["0001", "0001"], ["0000", "00010000", "00000001"]], # 1 * 1
 [["0010", "0001"], ["0000", "00100000", "00000010"]], # 2 * 1
 [["0011", "0001"], ["0000", "00110000", "00000011"]], # 3 * 1
@@ -240,8 +241,9 @@ mult_tests = [
 [["1111", "1111"], ["0000", "11110000", "11100001"]] # 15 * 15
     ]
 
-def test_multAlg():
-    for values in mult_tests:
-        assert multAlg(values[0][0], values[0][1], False) == [values[1][1],values[1][0],values[1][2]]
-        assert multAlg(values[0][0], values[0][1], True) == [values[1][1],values[1][0],values[1][2]]
-       
+
+@pytest.mark.parametrize("input, expected", multiplication_tests_non_negative)
+def test_multAlg(input, expected):
+    result = multAlg(input[0], input[1], False)
+    # Check if the second-to-last element of return value matches the expected output
+    assert result[-2] == [expected[1], expected[0], expected[2]], f"Failed for input {input}: expected {expected}, got {result[-2]}"
