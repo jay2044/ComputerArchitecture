@@ -32,7 +32,7 @@ def twosComp(n, size):
 
 
 # binary multiplication algorithm, should return an array of computational values
-def multAlg(multd, multr):
+def multAlg(multd, multr, twosComp):
 
     # set up product string
     prod = ""
@@ -43,20 +43,21 @@ def multAlg(multd, multr):
 
     questionVals = [multd, multr, prod]
 
-    # bool values to check if multd and multr are 2's comp
-    dComp = False
-    rComp = False
+    if twosComp:
+        # bool values to check if multd and multr are 2's comp
+        dComp = False
+        rComp = False
 
-    #multiplicationPrompt(multd, multr)
+        #multiplicationPrompt(multd, multr)
 
-    # check for leading bit 1, if 2's comp numbers
-    if questionVals[0][0] == "1":
-        dComp = True
-        questionVals[0] = twosComp(questionVals[0], len(questionVals[0]))
+        # check for leading bit 1, if 2's comp numbers
+        if questionVals[0][0] == "1":
+            dComp = True
+            questionVals[0] = twosComp(questionVals[0], len(questionVals[0]))
 
-    if questionVals[1][0] == "1":
-        rComp = True
-        questionVals[1] = twosComp(questionVals[1], len(questionVals[1]))
+        if questionVals[1][0] == "1":
+            rComp = True
+            questionVals[1] = twosComp(questionVals[1], len(questionVals[1]))
 
     
     size = len(multr)
@@ -82,9 +83,11 @@ def multAlg(multd, multr):
         
         size = size - 1
 
-    # check for need to 2's comp the prod
-    if dComp and not rComp or not dComp and rComp:
-        prod = twosComp(prod, prodLen)
+    if twosComp:
+        # check for need to 2's comp the prod
+        if dComp and not rComp or not dComp and rComp:
+            prod = twosComp(prod, prodLen)
+
     return questionVals
 
 
