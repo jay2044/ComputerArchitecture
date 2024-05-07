@@ -1,4 +1,4 @@
-
+import copy
 binarySum = lambda a, b: bin(int(a, 2) + int(b, 2))
 binaryDiff = lambda a, b: bin(int(a, 2) - int(b, 2))
 
@@ -35,60 +35,60 @@ def twosComp(n, size):
 def multAlg(multd, multr, twoscomp):
 
     # set up product string
-    prod = ""
-    prodLen = len(multd) + len(multr)
-
+    resulting_product_length = len(multd) + len(multr)
     # populate prod with zeros
-    for i in range(prodLen):
-        prod += "0"
+    prod = "0" * resulting_product_length
 
-    questionVals = [multd, multr, prod]
+    while len(multd) < resulting_product_length:
+        multd = "0" + multd
 
-    if twoscomp == True:
+    questionVals = [[multd, multr, prod]]
+
+    if twoscomp:
         # bool values to check if multd and multr are 2's comp
         dComp = False
         rComp = False
 
         # check for leading bit 1, if 2's comp numbers
-        if questionVals[0][0] == "1":
+        if questionVals[0][0][0] == "1":
             dComp = True
 
-        if questionVals[1][0] == "1":
+        if questionVals[0][1][0] == "1":
             rComp = True
 
-    
-    size = len(multr)
-    #need to update logic in this loop to get the intermediate values into the array to return the full process for question creation
-    for i in range(len(multr)):
+    questionVals.append(copy.copy(questionVals[0]))  # Initialization step
+    multiplier_length = len(multr)
 
+    # iterate multiplier length times and calculate the product step-by-step
+    for i in range(multiplier_length):
         # if ending bit is 1 add multiplicand to product
-        if questionVals[1][len(multr) - 1] == "1":
-            tempStr = binarySum(questionVals[2], questionVals[0])
-            questionVals[2] = tempStr[2:]  # removes 0b
+        if questionVals[i+1][1][len(multr) - 1] == "1":
+            tempStr = binarySum(questionVals[i+1][2], questionVals[i+1][0])
+            questionVals[i+1][2] = tempStr[2:]  # removes 0b
 
-            curlen = len(questionVals[2])
-            while curlen < prodLen:
-                questionVals[2] = "0" + questionVals[2]
-                curlen += 1
+            current_product_length = len(questionVals[i+1][2])
+            while current_product_length < resulting_product_length:
+                questionVals[i+1][2] = "0" + questionVals[i+1][2]
+                current_product_length += 1
 
         # shift multd left
-        questionVals[0] += "0"
+        questionVals[i+1][0] += "0"
+        questionVals[i+1][0] = questionVals[i+1][0][1:]
 
         # shift multr right
-        shiftString = ("0" + questionVals[1])
-        questionVals[1] = shiftString[:-1]
-        
-        size = size - 1
+        shiftString = ("0" + questionVals[i+1][1])
+        questionVals[i+1][1] = shiftString[:-1]
+        questionVals.append(copy.copy(questionVals[i+1]))
+    questionVals[len(questionVals)-1][0] = "final"
+    questionVals[len(questionVals)-1][1] = "product"
 
-    if twoscomp == True:
-        # check for need to 2's comp the prod
+    if twoscomp:
+        # check for need to twoscomp product
         if dComp and not rComp or not dComp and rComp:
-            questionVals.append(twosComp(questionVals[2], prodLen))
+            questionVals[len(questionVals)-1][2] = twoscomp(questionVals[2], len(questionVals[2]))
 
     return questionVals
 
-arr = multAlg("1000", "0001", True)
-print(arr[3])
 
 # binary division algorithm
 def divAlg(n, m):
@@ -153,3 +153,5 @@ def divAlg(n, m):
     #this should return an array of all the values needed to give the question
     return
 
+
+print(multAlg("0010", "0011", False))
