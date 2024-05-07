@@ -32,7 +32,7 @@ def twosComp(n, size):
 
 
 # binary multiplication algorithm, should return an array of computational values
-def multAlg(multd, multr, twosComp):
+def multAlg(multd, multr, twoscomp):
 
     # set up product string
     prod = ""
@@ -43,7 +43,7 @@ def multAlg(multd, multr, twosComp):
 
     questionVals = [multd, multr, prod]
 
-    if twosComp:
+    if twoscomp == True:
         # bool values to check if multd and multr are 2's comp
         dComp = False
         rComp = False
@@ -83,7 +83,7 @@ def multAlg(multd, multr, twosComp):
         
         size = size - 1
 
-    if twosComp:
+    if twoscomp == True:
         # check for need to 2's comp the prod
         if dComp and not rComp or not dComp and rComp:
             prod = twosComp(prod, prodLen)
