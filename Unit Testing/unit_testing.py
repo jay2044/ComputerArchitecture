@@ -4,6 +4,7 @@ import sys
 current_dir = os.path.dirname(__file__)
 sys.path.append(os.path.join(current_dir, '../'))
 from converters.machine_to_mips import *
+from binaryArith.binaryArith import *
 
 def test_machineToMipsConversionRType():
     machineCode = "00000001010010110100100000100000"

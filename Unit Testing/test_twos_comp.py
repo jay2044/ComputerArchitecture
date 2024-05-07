@@ -151,30 +151,6 @@ eight_bit_tests = [
 
 
 def test_twosComp():
-    # Combine all test cases into a single list for easier processing
-    all_test_cases = four_bit_tests + eight_bit_tests
-
-    # Track the number of failed tests
-    failed_tests = 0
-
-    for test_case in all_test_cases:
-        bit_string_input, expected_bit_string = test_case
-        try:
-            received_bit_string = twosComp(bit_string_input, len(bit_string_input))
-        except Exception as e:
-            print(f"Error converting bit string: {bit_string_input}")
-            print(f"\t{e}")
-            failed_tests += 1
-            continue
-
-        if received_bit_string != expected_bit_string:
-            print(f"Failed test for: {bit_string_input} expected: {expected_bit_string} received: {received_bit_string}")
-            failed_tests += 1
-
-    if failed_tests == 0:
-        print("All tests passed successfully.")
-    else:
-        print(f"{failed_tests} tests failed.")
-
-
-test_twosComp()
+    tests = four_bit_tests + eight_bit_tests
+    for values in tests:
+        assert twosComp(values[0], len(values[0])) == values[1]
