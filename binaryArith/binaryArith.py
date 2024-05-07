@@ -10,9 +10,12 @@ def twosComp(n, size):
 
     i = size - 1
     # finding first 1
-    while n[i] != "1":
+    while n[i] != "1" and i >= 0:
         binResult = n[i] + binResult
         i -= 1
+
+    if i == -1:
+        return binResult
 
     binResult = n[i] + binResult
     i -= 1
@@ -49,14 +52,15 @@ def multAlg(multd, multr):
     # check for leading bit 1, if 2's comp numbers
     if questionVals[0][0] == "1":
         dComp = True
-        questionVals[0] = twosComp(questionVals[0], n)
+        questionVals[0] = twosComp(questionVals[0], len(questionVals[0]))
 
     if questionVals[1][0] == "1":
         rComp = True
-        questionVals[1] = twosComp(questionVals[1], m)
+        questionVals[1] = twosComp(questionVals[1], len(questionVals[1]))
 
     
     size = len(multr)
+    #need to update logic in this loop to get the intermediate values into the array to return the full process for question creation
     for i in range(len(multr)):
 
         # if ending bit is 1 add multiplicand to product
