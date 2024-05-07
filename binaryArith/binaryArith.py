@@ -37,6 +37,7 @@ def multAlg(multd, multr, twoscomp):
     # set up product string
     prod = ""
     prodLen = len(multd) + len(multr)
+    
     # populate prod with zeros
     for i in range(prodLen):
         prod += "0"
@@ -48,16 +49,12 @@ def multAlg(multd, multr, twoscomp):
         dComp = False
         rComp = False
 
-        #multiplicationPrompt(multd, multr)
-
         # check for leading bit 1, if 2's comp numbers
         if questionVals[0][0] == "1":
             dComp = True
-            questionVals[0] = twosComp(questionVals[0], len(questionVals[0]))
 
         if questionVals[1][0] == "1":
             rComp = True
-            questionVals[1] = twosComp(questionVals[1], len(questionVals[1]))
 
     
     size = len(multr)
@@ -86,7 +83,7 @@ def multAlg(multd, multr, twoscomp):
     if twoscomp == True:
         # check for need to 2's comp the prod
         if dComp and not rComp or not dComp and rComp:
-            prod = twosComp(prod, prodLen)
+            questionVals[2] = twosComp(questionVals[2], prodLen)
 
     return questionVals
 
@@ -153,3 +150,4 @@ def divAlg(n, m):
 
     #this should return an array of all the values needed to give the question
     return
+
