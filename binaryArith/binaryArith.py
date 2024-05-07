@@ -37,7 +37,7 @@ def multAlg(multd, multr, twoscomp):
     # set up product string
     prod = ""
     prodLen = len(multd) + len(multr)
-    
+
     # populate prod with zeros
     for i in range(prodLen):
         prod += "0"
@@ -83,10 +83,12 @@ def multAlg(multd, multr, twoscomp):
     if twoscomp == True:
         # check for need to 2's comp the prod
         if dComp and not rComp or not dComp and rComp:
-            questionVals[2] = twosComp(questionVals[2], prodLen)
+            questionVals.append(twosComp(questionVals[2], prodLen))
 
     return questionVals
 
+arr = multAlg("1000", "0001", True)
+print(arr[3])
 
 # binary division algorithm
 def divAlg(n, m):
