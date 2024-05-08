@@ -1,3 +1,8 @@
+<<<<<<< HEAD
+=======
+# from converters.mips_to_machine import mips_to_machine
+
+>>>>>>> 6425afd4ec4e5044a93ceaf42d2ff3191f48cdf1
 import os
 import sys
 
@@ -70,6 +75,7 @@ def test_mips_to_machine():
             received_machine_code = mips_to_machine(mips_instruction)
         except Exception as e:
             print(f"Error processing instruction: {mips_instruction}")
+            print(f"\t{e}")
             failed_tests += 1
             continue
 
