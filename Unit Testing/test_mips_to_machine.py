@@ -1,8 +1,3 @@
-<<<<<<< HEAD
-=======
-# from converters.mips_to_machine import mips_to_machine
-
->>>>>>> 6425afd4ec4e5044a93ceaf42d2ff3191f48cdf1
 import os
 import sys
 
