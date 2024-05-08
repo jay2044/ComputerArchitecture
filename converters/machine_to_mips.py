@@ -10,16 +10,12 @@ def rTypeConversion(machineCode, opcode, funct):
             shamt = int(machineCode[21:26], 2)
 
             # instruction = rTypeInstruction(opcode,rs,rt,rd, funct)
-            if name in ["add", "addu", "and", "slt", "sltu", "sub", "subu"]:
-                return f"{name} {rd} {rs} {rt}"
-
-            if name in ["nor", "or"]:
+            if name in ["add", "addu", "and", "slt", "sltu", "sub", "subu", "nor", "or"]:
                 return f"{name} {rd} {rs} {rt}"
 
             if name in ["sll", "srl"]:
                 return f"{name} {rd} {rt} {shamt}"
             
-            return f"{name} {rt}" # idk
 
 
 # i type and jtype conversion
@@ -34,7 +30,7 @@ def eitherITypeORJType(machineCode, opcode):
                 immediate = int(machineCode[16:], 2)
                 # instruction = iTypeInstruction(opcode,rs,rt,immediate)
 
-                if name in ["addi", "addiu", "andi", "lbu", "lhu", "ll", "lw", "slti", "sltiu"]:
+                if name in ["addi", "addiu", "andi", "lbu", "lhu", "ll", "lw", "slti", "sltiu", "ori"]:
                     return f"{name} {rt} {rs} {immediate}"
 
                 if name in ["bne", "beq", "sb", "sc", "sh", "sw"]:
@@ -57,8 +53,8 @@ def checkForOpcode(machinecode):
     else:
         return eitherITypeORJType(machinecode, opcode)
 
-
+# we need this to return the mips_instruction so it can pass the testcases
 def machine_to_mips(machine_code):
     # This function uses the checkForOpcode function to determine the MIPS instruction
     mips_instruction = checkForOpcode(machine_code)
-    print(mips_instruction)
+    return mips_instruction
