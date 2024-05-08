@@ -1,3 +1,4 @@
+import pytest
 import os
 import sys
 
@@ -12,17 +13,25 @@ from binaryArith.binaryArith import *
 # 4. Negative * Negative
 
 #TODO actually set up tests for the dvision algorithm, should be similar to the multiplication algorithm
+#The quotient should always be the length of the bigger element, either the dividend or the divisor
+#The remainder should also follow suit
+division_tests = [
+[["0010", "0001"], ["0000", "0", "0010"]], # 1 / 1 = 1 r 0
+[["0010", "0001"], ["0000", "0", "0010"]], # 2 / 1 = 2 r 0
+[["0010", "0001"], ["0000", "0", "0010"]], # 3 / 1 = 3 r 0
+[["0010", "0001"], ["0000", "0", "0010"]], # 4 / 1 = 4 r 0
+[["0010", "0001"], ["0000", "0", "0010"]], # 4 / 2 = 2 r 0
+[["0101", "0010"], ["0001", "1", "0010"]], # 5 / 2 = 2 r 1
+[["0101", "0011"], ["0010", "1", "0001"]], # 5 / 3 = 1 r 2
+[["1000", "0100"], ["0000", "0", "0010"]], # 8 / 4 = 2 r 0 
 
-mult_tests = [
-    [["0001","0001", False],["00010000","0000","00000001"]], #1 * 1
-    [["0001","0010", False],["00010000","0000","00000010"]], #1 * 2
-    [["0010","0001", False],["00100000","0000","00000010"]], #2 * 1
-    [["0001","0011", False],["00010000","0000","00000011"]], #1 * 3
-    [["0011","0001", False],["00110000","0000","00000011"]], #3 * 1
-    [["0001","0100", False],["00010000","0000","00000100"]], #1 * 4
-    [["0100","0001", False],["01000000","0000","00000100"]], #4 * 1
-    ]
+#idk how to fix this one
+[["0001", "0101"], ["0101", "0", "0000"]], # 1 / 5 = 0 r 5
 
-def test_multAlg():
-    for values in mult_tests:
-        assert multAlg(values[0][0], values[0][1], values[0][2]) == [values[1][0],values[1][1],values[1][2]]
+]
+
+@pytest.mark.parametrize("input, expected", division_tests)
+def test_divAlg_(input, expected):
+    result = divAlg(input[0], input[1], False)
+    # Check if the second-to-last element of return value matches the expected output
+    assert result == [expected[0], expected[1], expected[2]], f"Failed for input {input}: expected {expected}, got {result[-2]}"

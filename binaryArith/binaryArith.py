@@ -91,45 +91,46 @@ def multAlg(multd, multr, twoscomp):
 
 
 # binary division algorithm
-def divAlg(n, m):
-    
-    dividend = n
-    divisor = m
+def divAlg(dividend, divisor, twoscomp):
     quotient = ""
-
+    problem_values = [dividend, divisor, quotient]
+    
+    padSize = len(dividend)
     j = 0
-    while j != m and divisor[j] != "1":
-        j += 1
 
-    if j == m:
+    if j == len(divisor):
         return
 
-    j += 1
-    # bool values to check if multd and multr are 2's comp
-    ddComp = False
-    drComp = False
+    # while j != len(divisor) and divisor[j] != "1":
+    #     j += 1
+    # j += 1
+    
+    if twoscomp:
+        # bool values to check if multd and multr are 2's comp
+        ddComp = False
+        drComp = False
 
-    # check for leading bit 1, if 2's comp numbers
-    if dividend[0] == "1":
-        ddComp = True
-        dividend = twosComp(dividend, n)
+        # check for leading bit 1, if 2's comp numbers
+        if dividend[0] == "1":
+            ddComp = True
+            #dividend = twosComp(dividend, n)
 
-    if divisor[0] == "1":
-        drComp = True
-        divisor = twosComp(divisor, m)
+        if divisor[0] == "1":
+            drComp = True
+            #divisor = twosComp(divisor, m)
 
     # right justify divisor
-    for i in range(m):
-        divisor = divisor + "0"
+    # for i in range(m):
+    #     divisor = divisor + "0"
+    size = len(divisor)
+    divisor = divisor + "0" * len(divisor)
 
     # setting the new size of divisor
-    m *= 2
-
-    size = m
-    j = m - j
-
-    # algo loop
-    for i in range(j):
+    # m = len(divisor)
+    #size = len(divisor)
+    # j = len(divisor) - j
+    
+    for i in range(size + 1):
 
         # remainder = remainder - divisor
         dividend = binaryDiff(dividend, divisor)
@@ -143,15 +144,29 @@ def divAlg(n, m):
             quotient += "1"
 
         # shift divisor right
-        divisor = list(divisor)
-        divisor.pop()
-        divisor = "".join(divisor)
-        size = size - 1
-
-    #add something here for 2's comp??
+        divisor = divisor[:-1]
+        
+        #size = size - 1
+        i +=1
 
     #this should return an array of all the values needed to give the question
-    return
+    problem_values[0] = dividend[2:]
 
+    if padSize - len(problem_values[0]) > 0:
+        problem_values[0] = "0" * (padSize - len(problem_values[0])) + problem_values[0]
 
-print(multAlg("1000", "0001", True))
+    #should always be 1??
+    problem_values[1] = divisor[-1:]
+
+    #should be padded in a similar manner to the dividend
+    problem_values[2] = quotient
+    if padSize - len(problem_values[2]) > 0:
+        problem_values[2] = "0" * (padSize - len(problem_values[2])) + problem_values[2]
+    elif padSize - len(problem_values[2]) < 0:
+        problem_values[2] = problem_values[2][abs(padSize - len(problem_values[2])):]
+    
+    #add something here for 2's comp??
+
+    return problem_values
+
+print(divAlg("0001", "0101", False))
