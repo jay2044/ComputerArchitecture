@@ -83,7 +83,8 @@ def mips_instruction_generator(instructionType):
                     return f"{mnemonic} ${rd} ${rs}"
                 
                 if mnemonic in ["sra"]:
-                    return f"{mnemonic} ${rd} ${rt}"
+                    shamt = random.randint(0,31)
+                    return f"{mnemonic} ${rd} ${shamt}"
                 
     elif instructionType in ["itype"]:
         num = random.randint(21,37)
@@ -95,7 +96,7 @@ def mips_instruction_generator(instructionType):
                     return f"{mnemonic} ${rt} ${rs} {immediate}"
 
                 if mnemonic in ["bne", "beq", "sb", "sc", "sh", "sw"]:
-                    return f"{mnemonic} ${rs} ${rt}"
+                    return f"{mnemonic} ${rs} {immediate}({rt})"
                 
                 return f"{mnemonic} ${rt} {immediate}" # lui
     
@@ -120,10 +121,13 @@ def mips_to_hex():
 
     # checks to see if the user input is correct in integer form.
     print(int(instruction_in_binary,2))
-    assert int(input(f"Enter the hex for this instruction: {instruction}\n"), 16) == int(instruction_in_binary,2)
-
-
-    print("CORRECT!!!")
+    try: 
+        assert int(input(f"Enter the hex for this instruction: {instruction}\n"), 16) == int(instruction_in_binary,2)
+        print("CORRECT!!!")
+    except AssertionError:
+        print("INCORRECT LOSA!")
+    
+    
 
 
 
