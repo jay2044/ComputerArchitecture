@@ -67,24 +67,24 @@ def mips_instruction_generator(instructionType):
                 mnemonic = name
 
                 if mnemonic in ["add", "addu", "and", "slt", "sltu", "sub", "subu", "nor", "or"]:
-                    return f"{mnemonic} ${rd} ${rs} ${rt}"
+                    return f"{mnemonic} ${rd}, ${rs}, ${rt}"
 
                 if mnemonic in ["sll", "srl"]:
                     shamt = random.randint(0,31)
-                    return f"{mnemonic} ${rd} ${rt} {shamt}"
+                    return f"{mnemonic} ${rd}, ${rt}, {shamt}"
                 
                 if mnemonic in ["div", "divu", "mult", "multu"]:
-                    return f"{mnemonic} ${rs} ${rt}"
+                    return f"{mnemonic} ${rs}, ${rt}"
                 
                 if mnemonic in ["mfhi", "mflo"]:
                     return f"{mnemonic} ${rd}"
                 
                 if mnemonic in ["mfc0"]:
-                    return f"{mnemonic} ${rd} ${rs}"
+                    return f"{mnemonic} ${rd}, ${rs}"
                 
                 if mnemonic in ["sra"]:
                     shamt = random.randint(0,31)
-                    return f"{mnemonic} ${rd} ${shamt}"
+                    return f"{mnemonic} ${rd}, ${shamt}"
                 
     elif instructionType in ["itype"]:
         num = random.randint(21,37)
@@ -92,13 +92,17 @@ def mips_instruction_generator(instructionType):
             if value == num:
                 mnemonic = name
                 immediate = random.randint(0, 65535)
-                if mnemonic in ["addi", "addiu", "andi", "lbu", "lhu", "ll", "lw", "slti", "sltiu", "ori"]:
-                    return f"{mnemonic} ${rt} ${rs} {immediate}"
+                if mnemonic in ["addi", "addiu", "andi", "slti", "sltiu", "ori"]:
+                    return f"{mnemonic} ${rt}, ${rs}, {immediate}"
 
-                if mnemonic in ["bne", "beq", "sb", "sc", "sh", "sw"]:
-                    return f"{mnemonic} ${rs} {immediate}({rt})"
+                if mnemonic in ["sb", "sc", "sh", "sw", "lbu", "lhu", "ll", "lw"]:
+                    immediate = random.randint(0,32)
+                    return f"{mnemonic} ${rs}, {immediate}(${rt})"
                 
-                return f"{mnemonic} ${rt} {immediate}" # lui
+                if mnemonic in ["bne", "beq"]:
+                    return f"{mnemonic} ${rs}, {rt}, {immediate}"
+                
+                return f"{mnemonic} ${rt}, {immediate}" # lui
     
     elif instructionType in ["jtype"]:
         num = random.randint(38,39)
@@ -106,10 +110,10 @@ def mips_instruction_generator(instructionType):
             if value == num:
                 mnemonic = name
 
-                if mnemonic in ["j"]:
-                    return f"{mnemonic}"
-                else:
-                    return f"{mnemonic} $jr"
+                if mnemonic in ["jr"]:
+                    return f"{mnemonic} $ra"
+                
+                return f"{mnemonic}"
     
 
 def mips_to_hex():
@@ -126,9 +130,6 @@ def mips_to_hex():
         print("CORRECT!!!")
     except AssertionError:
         print("INCORRECT LOSA!")
-    
-    
-
 
 
 
