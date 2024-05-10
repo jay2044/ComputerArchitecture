@@ -11,22 +11,22 @@ def rTypeConversion(machineCode, opcode, funct):
 
             # instruction = rTypeInstruction(opcode,rs,rt,rd, funct)
             if name in ["add", "addu", "and", "slt", "sltu", "sub", "subu", "nor", "or"]:
-                return f"{name} {rd} {rs} {rt}"
+                return f"{name} ${rd} ${rs} ${rt}"
 
             if name in ["sll", "srl"]:
-                return f"{name} {rd} {rt} {shamt}"
+                return f"{name} ${rd} ${rt} {shamt}"
             
             if name in ["div", "divu", "mult", "multu"]:
-                return f"{name} {rs} {rt}"
+                return f"{name} ${rs} ${rt}"
             
             if name in ["mfhi", "mflo"]:
-                return f"{name} {rd}"
+                return f"{name} ${rd}"
             
             if name in ["mfc0"]:
-                return f"{name} {rd} {rs}"
+                return f"{name} ${rd} ${rs}"
             
             if name in ["sra"]:
-                return f"{name} {rd} {rt}"
+                return f"{name} ${rd} ${rt}"
             
 
 
@@ -43,11 +43,12 @@ def eitherITypeORJType(machineCode, opcode):
                 # instruction = iTypeInstruction(opcode,rs,rt,immediate)
 
                 if name in ["addi", "addiu", "andi", "lbu", "lhu", "ll", "lw", "slti", "sltiu", "ori"]:
-                    return f"{name} {rt} {rs} {immediate}"
+                    return f"{name} ${rt} ${rs} {immediate}"
 
                 if name in ["bne", "beq", "sb", "sc", "sh", "sw"]:
-                    return f"{name} {rs} {rt}"
-                return f"{name} {rt} {immediate}" # lui
+                    return f"{name} ${rs} ${rt}"
+                
+                return f"{name} ${rt} {immediate}" # lui
             else:
                 address = int(machineCode[5:], 2)
                 # instruction = jTypeInstruction(opcode, address)

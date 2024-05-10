@@ -60,6 +60,10 @@ instruction_dictionary = {
     'jal': '3'
 }
 
+floatingPoints_dictionary = {
+    
+}
+
 named_registers = {
     "0": 0,
     "zero": 0,

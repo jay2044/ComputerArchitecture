@@ -97,7 +97,6 @@ def mips_to_machine(instruction):
             rs = bin(named_registers[instruction[1]])[2:].zfill(5)
             rt = bin(named_registers[instruction[2]])[2:].zfill(5)
             immediate = bin(int(instruction[3], 0))[2:].zfill(16)
-
             machine = i_type_instruction(mnemonic, rs, rt, immediate)
             return f"{machine.opcode.zfill(6)}{rs}{rt}{immediate}"
         
@@ -106,7 +105,6 @@ def mips_to_machine(instruction):
             rt = bin(named_registers[instruction[1]])[2:].zfill(5)
             immediate = int(instruction[2], 0)
             immediate = bin(immediate & 0xFFFF)[2:].zfill(16) # needs this so this can work with negative numbers.
-
             machine = i_type_instruction(mnemonic, rs, rt, immediate)
             return f"{machine.opcode.zfill(6)}{rs}{rt}{immediate}"
 
