@@ -16,6 +16,18 @@ def rTypeConversion(machineCode, opcode, funct):
             if name in ["sll", "srl"]:
                 return f"{name} {rd} {rt} {shamt}"
             
+            if name in ["div", "divu", "mult", "multu"]:
+                return f"{name} {rs} {rt}"
+            
+            if name in ["mfhi", "mflo"]:
+                return f"{name} {rd}"
+            
+            if name in ["mfc0"]:
+                return f"{name} {rd} {rs}"
+            
+            if name in ["sra"]:
+                return f"{name} {rd} {rt}"
+            
 
 
 # i type and jtype conversion
