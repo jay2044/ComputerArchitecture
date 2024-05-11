@@ -85,8 +85,7 @@ def mips_to_machine(instruction):
         if mnemonic in ["addi", "addiu", "andi", "slti", "sltiu", "ori"]:
             rs = bin(named_registers[instruction[2]])[2:].zfill(5)
             rt = bin(named_registers[instruction[1]])[2:].zfill(5)
-            immediate = int(instruction[3], 0)
-            immediate = bin(immediate & 0xFFFF)[2:].zfill(16) # needs this so this can work with negative numbers.
+            immediate = twos_complement(int(instruction[3], 0)) # needs this so this can work with negative numbers.
             machine = i_type_instruction(mnemonic, rs, rt, immediate)
             return f"{machine.opcode.zfill(6)}{rs}{rt}{immediate}"
         
@@ -100,8 +99,7 @@ def mips_to_machine(instruction):
         if mnemonic in ["lui"]:
             rs = '00000'
             rt = bin(named_registers[instruction[1]])[2:].zfill(5)
-            immediate = int(instruction[2], 0)
-            immediate = bin(immediate & 0xFFFF)[2:].zfill(16) # needs this so this can work with negative numbers.
+            immediate = twos_complement(int(instruction[2], 0)) # needs this so this can work with negative numbers.
             machine = i_type_instruction(mnemonic, rs, rt, immediate)
             return f"{machine.opcode.zfill(6)}{rs}{rt}{immediate}"
 
@@ -109,3 +107,11 @@ def mips_to_machine(instruction):
         address = bin(int(instruction[1], 16))[2:].zfill(26)
         machine = j_type_instruction(mnemonic, address)
         return f"{machine.opcode.zfill(6)}{machine.address}"
+    
+
+def twos_complement(number):
+    if number < 0:
+        return bin(number & 0xFFFFFFFFFFFF)[2:].zfill(16)
+    else:
+        return number
+
