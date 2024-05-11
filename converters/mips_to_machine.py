@@ -111,7 +111,7 @@ def mips_to_machine(instruction):
 
 def twos_complement(number):
     if number < 0:
-        return bin(number & 0xFFFFFFFFFFFF)[2:].zfill(16)
+        return bin(number & 0xFFFF)[2:].zfill(16)
     else:
-        return number
+        return bin(number)[2:].zfill(16)
 
