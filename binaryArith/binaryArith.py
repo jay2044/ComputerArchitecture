@@ -95,10 +95,10 @@ def divAlg(dividend, divisor, twoscomp):
     quotient = ""
     problem_values = [dividend, divisor, quotient]
     
+
     #this is here because if the result of division is 0 then the remainder is the divisor, which wasn't kept
     #this needs to be cleaned up somehow, maybe when each value of the question is stored in an array
     original = divisor
-    
     padSize = len(dividend)
     j = 0
 
@@ -172,6 +172,13 @@ def divAlg(dividend, divisor, twoscomp):
     #should always be 1??
     problem_values[1] = divisor[-1:]
 
+    #should be padded in a similar manner to the dividend
+    problem_values[2] = quotient
+    if padSize - len(problem_values[2]) > 0:
+        problem_values[2] = "0" * (padSize - len(problem_values[2])) + problem_values[2]
+    elif padSize - len(problem_values[2]) < 0:
+        problem_values[2] = problem_values[2][abs(padSize - len(problem_values[2])):]
+    
     #add something here for 2's comp??
 
     return problem_values
