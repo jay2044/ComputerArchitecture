@@ -18,10 +18,7 @@ def mips_to_machine(instruction):
             rs = '00000'
             rt = bin(named_registers[instruction[2]])[2:].zfill(5)
             rd = bin(named_registers[instruction[1]])[2:].zfill(5)
-            if len(instruction) == 4:
-                shamt = bin(int(instruction[3]))[2:].zfill(5)
-            else:
-                shamt = '00000'
+            shamt = bin(int(instruction[3]))[2:].zfill(5)
             machine = r_type_instruction(mnemonic, rs, rt, rd, shamt)
             return f"{machine.opcode.zfill(6)}{rs}{rt}{rd}{shamt}{machine.funct.zfill(6)}"
 
@@ -85,7 +82,7 @@ def mips_to_machine(instruction):
             machine = i_type_instruction(mnemonic, rs, rt, immediate)
             return f"{machine.opcode.zfill(6)}{rs}{rt}{immediate}"
 
-        if mnemonic in ["addi", "addiu", "andi", "lbu", "lhu", "ll", "lw", "slti", "sltiu", "ori"]:
+        if mnemonic in ["addi", "addiu", "andi", "slti", "sltiu", "ori"]:
             rs = bin(named_registers[instruction[2]])[2:].zfill(5)
             rt = bin(named_registers[instruction[1]])[2:].zfill(5)
             immediate = int(instruction[3], 0)
