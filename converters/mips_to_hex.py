@@ -84,7 +84,11 @@ def mips_instruction_generator(instructionType):
                 
                 if mnemonic in ["sra"]:
                     shamt = random.randint(0,31)
-                    return f"{mnemonic} ${rd}, ${shamt}"
+                    return f"{mnemonic} ${rd}, ${rt}, {shamt}"
+                
+                if mnemonic in ["jr"]:
+                    return f"{mnemonic} $ra"
+
                 
     elif instructionType in ["itype"]:
         num = random.randint(21,37)
@@ -109,11 +113,11 @@ def mips_instruction_generator(instructionType):
         for name, value in instructions.items():
             if value == num:
                 mnemonic = name
+                immediate = hex(random.randint(0,67108863))
 
-                if mnemonic in ["jr"]:
-                    return f"{mnemonic} $ra"
+                return f"{mnemonic} {immediate}"
                 
-                return f"{mnemonic}"
+                
     
 
 def mips_to_hex():
@@ -122,9 +126,6 @@ def mips_to_hex():
 
     instruction_in_binary = mips_to_machine(instruction)
 
-
-    # checks to see if the user input is correct in integer form.
-    print(int(instruction_in_binary,2))
     try: 
         assert int(input(f"Enter the hex for this instruction: {instruction}\n"), 16) == int(instruction_in_binary,2)
         print("CORRECT!!!")
