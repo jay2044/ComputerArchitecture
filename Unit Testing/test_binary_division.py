@@ -6,6 +6,7 @@ current_dir = os.path.dirname(__file__)
 sys.path.append(os.path.join(current_dir, '../'))
 from binaryArith.binaryArith import *
 
+
 """
 Test Case Groups (Only testing 4 bit numbers):
 1. Basic Division
@@ -27,6 +28,7 @@ division_tests = [
 [["0101", "0010"], ["0001", "1", "0010"]], # 5 / 2 = 2 r 1
 [["0101", "0011"], ["0010", "1", "0001"]], # 5 / 3 = 1 r 2
 [["1000", "0100"], ["0000", "0", "0010"]], # 8 / 4 = 2 r 0 
+
 
 #dividing a smaller number by a larger number
 [["0001", "0101"], ["0101", "0", "0000"]], # 1 / 5 = 0 r 5

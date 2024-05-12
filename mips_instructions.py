@@ -31,6 +31,14 @@ instruction_dictionary = {
     'srl': ['0', '02'],
     'sub': ['0', '22'],
     'subu': ['0', '23'],
+    'div': ['0', '1a'],
+    'divu': ['0', '1b'],
+    'mfhi': ['0', '10'],
+    'mflo': ['0', '12'],
+    'mult': ['0', '18'],
+    'multu': ['0', '19'],
+    'mfc0': ['10', '0'],
+    'sra': ['0','3'],
     'addi': '8',
     'addiu': '9',
     'andi': 'c',
@@ -52,7 +60,12 @@ instruction_dictionary = {
     'jal': '3'
 }
 
+floatingPoints_dictionary = {
+    
+}
+
 named_registers = {
+    "0": 0,
     "zero": 0,
     "at": 1,
     "v0": 2,
@@ -195,10 +208,8 @@ def type_of_instruction(instruction):
     """
     instruction = instruction.lower()
 
-    r_type = ["add", "addu", "and", "jr", "nor", "or", "slt", "sltu", "sll", "srl", "sub", "subu"]
-    i_type = ["addi", "addiu", "andi", "beq", "bne", "lbu", "lhu", "ll", "lui", "lw", "ori", "slti", "sltiu", "sb",
-              "sc",
-              "sh", "sw"]
+    r_type = ["add", "addu", "and", "jr", "nor", "or", "slt", "sltu", "sll", "srl", "sub", "subu", "div", "divu", "mfhi", "mflo", "mfc0", "mult", "multu", "sra"]
+    i_type = ["addi", "addiu", "andi", "beq", "bne", "lbu", "lhu", "ll", "lui", "lw", "ori", "slti", "sltiu", "sb", "sc", "sh", "sw"]
     j_type = ["j", "jal"]
 
     if instruction in r_type:

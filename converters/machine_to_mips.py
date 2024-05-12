@@ -9,17 +9,24 @@ def rTypeConversion(machineCode, opcode, funct):
             rd = get_register_name(int(machineCode[16:21], 2))
             shamt = int(machineCode[21:26], 2)
 
-            # instruction = rTypeInstruction(opcode,rs,rt,rd, funct)
-            if name in ["add", "addu", "and", "slt", "sltu", "sub", "subu"]:
-                return f"{name} {rd} {rs} {rt}"
-
-            if name in ["nor", "or"]:
-                return f"{name} {rd} {rs} {rt}"
+            if name in ["add", "addu", "and", "slt", "sltu", "sub", "subu", "nor", "or"]:
+                return f"{name} ${rd} ${rs} ${rt}"
 
             if name in ["sll", "srl"]:
-                return f"{name} {rd} {rt} {shamt}"
+                return f"{name} ${rd} ${rt} {shamt}"
             
-            return f"{name} {rt}" # idk
+            if name in ["div", "divu", "mult", "multu"]:
+                return f"{name} ${rs} ${rt}"
+            
+            if name in ["mfhi", "mflo"]:
+                return f"{name} ${rd}"
+            
+            if name in ["mfc0"]:
+                return f"{name} ${rd} ${rs}"
+            
+            if name in ["sra"]:
+                return f"{name} ${rd} ${rt}"
+            
 
 
 # i type and jtype conversion
@@ -32,22 +39,20 @@ def eitherITypeORJType(machineCode, opcode):
                 rs = get_register_name(int(machineCode[6:11], 2))
                 rt = get_register_name(int(machineCode[11:16], 2))
                 immediate = int(machineCode[16:], 2)
-                # instruction = iTypeInstruction(opcode,rs,rt,immediate)
 
-                if name in ["addi", "addiu", "andi", "lbu", "lhu", "ll", "lw", "slti", "sltiu"]:
-                    return f"{name} {rt} {rs} {immediate}"
+                if name in ["addi", "addiu", "andi", "lbu", "lhu", "ll", "lw", "slti", "sltiu", "ori"]:
+                    return f"{name} ${rt} ${rs} {immediate}"
 
                 if name in ["bne", "beq", "sb", "sc", "sh", "sw"]:
-                    return f"{name} {rs} {rt}"
-                return f"{name} {rt} {immediate}" # lui
+                    return f"{name} ${rs} ${rt}"
+                
+                return f"{name} ${rt} {immediate}" # lui
             else:
                 address = int(machineCode[5:], 2)
-                # instruction = jTypeInstruction(opcode, address)
                 return f"{name} {hex(address)}"
 
 
 
-# USE THIS FUNCTION TO USE THE FILE
 def checkForOpcode(machinecode):
     opcode = int(machinecode[0:6], 2)
     funct = -1
@@ -57,8 +62,6 @@ def checkForOpcode(machinecode):
     else:
         return eitherITypeORJType(machinecode, opcode)
 
-
 def machine_to_mips(machine_code):
-    # This function uses the checkForOpcode function to determine the MIPS instruction
     mips_instruction = checkForOpcode(machine_code)
-    print(mips_instruction)
+    return mips_instruction
