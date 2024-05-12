@@ -98,16 +98,13 @@ def divAlg(dividend, divisor, twoscomp):
     #this is here because if the result of division is 0 then the remainder is the divisor, which wasn't kept
     #this needs to be cleaned up somehow, maybe when each value of the question is stored in an array
     original = divisor
-    
+
     padSize = len(dividend)
     j = 0
 
     if j == len(divisor):
         return
 
-    # while j != len(divisor) and divisor[j] != "1":
-    #     j += 1
-    # j += 1
     
     if twoscomp:
         # bool values to check if multd and multr are 2's comp
@@ -117,23 +114,16 @@ def divAlg(dividend, divisor, twoscomp):
         # check for leading bit 1, if 2's comp numbers
         if dividend[0] == "1":
             ddComp = True
-            #dividend = twosComp(dividend, n)
+            dividend = twosComp(dividend, len(dividend))
 
         if divisor[0] == "1":
             drComp = True
-            #divisor = twosComp(divisor, m)
+            divisor = twosComp(divisor, len(divisor))
 
-    # right justify divisor
-    # for i in range(m):
-    #     divisor = divisor + "0"
+    #left justify divisor
     size = len(divisor)
     divisor = divisor + "0" * len(divisor)
 
-    # setting the new size of divisor
-    # m = len(divisor)
-    #size = len(divisor)
-    # j = len(divisor) - j
-    
     for i in range(size + 1):
 
         # remainder = remainder - divisor
@@ -153,14 +143,15 @@ def divAlg(dividend, divisor, twoscomp):
         #size = size - 1
         i +=1
 
-    #this should return an array of all the values needed to give the question
-    #should be padded in a similar manner to the dividend
+   
+    #quotient padding, pads up or down to length
     problem_values[2] = quotient
     if padSize - len(problem_values[2]) > 0:
         problem_values[2] = "0" * (padSize - len(problem_values[2])) + problem_values[2]
     elif padSize - len(problem_values[2]) < 0:
         problem_values[2] = problem_values[2][abs(padSize - len(problem_values[2])):]
     
+    #dividend padding
     if problem_values[2] == "0" * padSize:
         problem_values[0] = original
     else:
@@ -169,11 +160,20 @@ def divAlg(dividend, divisor, twoscomp):
         if padSize - len(problem_values[0]) > 0:
             problem_values[0] = "0" * (padSize - len(problem_values[0])) + problem_values[0]
 
-    #should always be 1??
+    #divisor padding, idk what this value should be or mean
     problem_values[1] = divisor[-1:]
 
     #add something here for 2's comp??
+    if twoscomp:
+        #match remainder to sign of dividend
+        if ddComp:
+            problem_values[0] = twosComp(problem_values[0], len(problem_values[0]))
+            
+            #handle if dividend and divisor have different signs
+            if not drComp:
+                problem_values[2] = twosComp(problem_values[2], len(problem_values[2]))
+        
 
     return problem_values
 
-print(divAlg("0001", "0101", False))
+print(divAlg("0110", "0011", True))
