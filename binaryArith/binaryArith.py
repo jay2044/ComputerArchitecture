@@ -164,13 +164,6 @@ def divAlg(dividend, divisor, twoscomp):
     #divisor padding, idk what this value should be or mean
     problem_values[1] = divisor[-1:]
 
-    #should be padded in a similar manner to the dividend
-    problem_values[2] = quotient
-    if padSize - len(problem_values[2]) > 0:
-        problem_values[2] = "0" * (padSize - len(problem_values[2])) + problem_values[2]
-    elif padSize - len(problem_values[2]) < 0:
-        problem_values[2] = problem_values[2][abs(padSize - len(problem_values[2])):]
-    
     #add something here for 2's comp??
     if twoscomp:
         #match remainder to sign of dividend
