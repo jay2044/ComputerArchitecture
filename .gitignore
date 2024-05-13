@@ -1,1 +1,8 @@
 **/__pycache__/
+.vscode/
+.DS_Store
+/shelf/
+/workspace.xml
+/httpRequests/
+/dataSources/
+/dataSources.local.xml
