@@ -190,4 +190,3 @@ def divAlg(dividend, divisor, twoscomp):
 
 
 print(divAlg("0111", "0010", False))
-
