@@ -1,6 +1,7 @@
 import os
 import sys
 from PyQt6.QtWidgets import *
+from PyQt6.QtGui import QFont
 from BinMultGUI import *
 from BinDivGUI import *
 from MipsToMachGUI import *
@@ -9,13 +10,18 @@ from MachToMipsGUI import *
 current_dir = os.path.dirname(__file__)
 sys.path.append(os.path.join(current_dir, '../'))
 
+ascii_art = r"""
+ ,---. ,----.  ,--.       ,----.                     ,--. ,---.,--.          ,--. 
+'.-.  \'.-.  |/    \     '  .-./    ,--,--.,--,--,--.`--'/  .-'`--' ,---.  ,-|  | 
+ .-' .'  .' <|  ()  |    |  | .---.' ,-.  ||        |,--.|  `-,,--.| .-. :' .-. | 
+/   '-./'-'  |\    /     '  '--'  |\ '-'  ||  |  |  ||  ||  .-'|  |\   --.\ `-' | 
+'-----'`----'  `--'       `------'  `--`--'`--`--`--'`--'`--'  `--' `----' `---'  
+"""
+
 
 class MainMenu(QWidget):
     def __init__(self):
         super().__init__()
-        self.initUI()
-
-    def initUI(self):
         layout = QVBoxLayout()
 
          # Create a QStackedWidget
@@ -41,6 +47,7 @@ class MainMenu(QWidget):
         layout.addWidget(self.stacked_widget)
 
         self.setLayout(layout)
+        self.setFixedSize(560, 450)
         self.setWindowTitle("230 Gamified")
 
 class ButtonContainer(QGroupBox):
@@ -51,6 +58,13 @@ class ButtonContainer(QGroupBox):
 
     def initUI(self):
         layout = QVBoxLayout()
+
+        self.description_label = QLabel(ascii_art)
+        self.description_label.setFont(QFont("Courier", 10))
+
+        layout.addWidget(self.description_label)
+
+        self.setFixedSize(520,300)
         
         self.binary_mult_button = QPushButton("Binary Multiplication")
         self.binary_mult_button.clicked.connect(self.show_binary_mult_page)
@@ -71,7 +85,9 @@ class ButtonContainer(QGroupBox):
         self.setLayout(layout)
 
     def show_binary_mult_page(self):
+        self.binary_mult_button.clearFocus()
         self.stacked_widget.setCurrentIndex(1)
+        self.stacked_widget.currentWidget().update()
     
     def show_binary_div_page(self):
         self.stacked_widget.setCurrentIndex(2)

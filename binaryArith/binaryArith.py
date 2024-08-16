@@ -1,6 +1,17 @@
 import copy
+import random
+
 binarySum = lambda a, b: bin(int(a, 2) + int(b, 2))
 binaryDiff = lambda a, b: bin(int(a, 2) - int(b, 2))
+
+def generateRandomBinary(n):
+    key1 = ""
+
+    for i in range(n):
+        temp = str(random.randint(0, 1))
+        key1 += temp
+
+    return key1
 
 # computes the 2's complement of binary numbers
 def twosComp(n, size):
@@ -189,4 +200,4 @@ def divAlg(dividend, divisor, twoscomp):
     return problem_values
 
 
-print(divAlg("0111", "0010", False))
+# print(divAlg("0111", "0010", False))
